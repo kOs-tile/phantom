@@ -117,6 +117,7 @@ class ExtractionQualityReport(BaseModel):
     evidence: dict[str, FieldEvidence] = Field(default_factory=dict)
     payload_fingerprint: str
     contract_fingerprint: str
+    report_fingerprint: str = ""
 
 
 class ExtractionValidationRequest(BaseModel):
@@ -140,6 +141,7 @@ class ExtractionDriftReport(BaseModel):
     missing_now: list[str] = Field(default_factory=list)
     newly_present: list[str] = Field(default_factory=list)
     stable_fields: list[str] = Field(default_factory=list)
+    report_fingerprint: str = ""
 
 
 def evaluate_extraction_contract(
@@ -185,7 +187,7 @@ def evaluate_extraction_contract(
     )
     passed = required_coverage >= contract.min_required_coverage
 
-    return ExtractionQualityReport(
+    report = ExtractionQualityReport(
         passed=passed,
         required_coverage=round(required_coverage, 6),
         total_required=total_required,
@@ -197,6 +199,10 @@ def evaluate_extraction_contract(
         payload_fingerprint=_fingerprint(data),
         contract_fingerprint=_fingerprint(contract.model_dump(mode="json")),
     )
+    report.report_fingerprint = _fingerprint(
+        report.model_dump(exclude={"report_fingerprint"}, mode="json")
+    )
+    return report
 
 
 
@@ -228,7 +234,7 @@ def compare_extractions(
             else:
                 stable_fields.append(path)
 
-    return ExtractionDriftReport(
+    report = ExtractionDriftReport(
         contract_fingerprint=current_report.contract_fingerprint,
         baseline_payload_fingerprint=baseline_report.payload_fingerprint,
         current_payload_fingerprint=current_report.payload_fingerprint,
@@ -242,3 +248,7 @@ def compare_extractions(
         newly_present=newly_present,
         stable_fields=stable_fields,
     )
+    report.report_fingerprint = _fingerprint(
+        report.model_dump(exclude={"report_fingerprint"}, mode="json")
+    )
+    return report
