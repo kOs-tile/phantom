@@ -9,7 +9,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://img.shields.io/badge/tests-70%2B-brightgreen.svg)]()
 
-A browser-automation research prototype originally designed as a Hermes agent skill. PHANTOM enables Hermes agents to browse the web undetected — scraping prices, monitoring pages, filling forms, and extracting structured data — while mimicking real human behavior to bypass anti-bot systems.
+A browser-automation research prototype originally designed as a Hermes agent skill. PHANTOM automates browsing, scraping, page monitoring, form interaction, and structured extraction. Its fingerprint and behavior-simulation layers are experimental; effectiveness against modern anti-bot systems has not been validated.
 
 ---
 
