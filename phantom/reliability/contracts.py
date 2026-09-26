@@ -124,6 +124,24 @@ class ExtractionValidationRequest(BaseModel):
     contract: ExtractionContract
 
 
+class ExtractionDriftRequest(BaseModel):
+    baseline: dict[str, Any]
+    current: dict[str, Any]
+    contract: ExtractionContract
+
+
+class ExtractionDriftReport(BaseModel):
+    contract_fingerprint: str
+    baseline_payload_fingerprint: str
+    current_payload_fingerprint: str
+    payload_changed: bool
+    current_contract_passed: bool
+    changed_fields: list[str] = Field(default_factory=list)
+    missing_now: list[str] = Field(default_factory=list)
+    newly_present: list[str] = Field(default_factory=list)
+    stable_fields: list[str] = Field(default_factory=list)
+
+
 def evaluate_extraction_contract(
     data: dict[str, Any],
     contract: ExtractionContract,
@@ -178,4 +196,49 @@ def evaluate_extraction_contract(
         evidence=evidence,
         payload_fingerprint=_fingerprint(data),
         contract_fingerprint=_fingerprint(contract.model_dump(mode="json")),
+    )
+
+
+
+def compare_extractions(
+    baseline: dict[str, Any],
+    current: dict[str, Any],
+    contract: ExtractionContract,
+) -> ExtractionDriftReport:
+    """Compare two payloads under the same deterministic extraction contract."""
+    baseline_report = evaluate_extraction_contract(baseline, contract)
+    current_report = evaluate_extraction_contract(current, contract)
+
+    changed_fields: list[str] = []
+    missing_now: list[str] = []
+    newly_present: list[str] = []
+    stable_fields: list[str] = []
+
+    for path in contract.required_fields + contract.optional_fields:
+        before = baseline_report.evidence[path]
+        after = current_report.evidence[path]
+
+        if before.present and not after.present:
+            missing_now.append(path)
+        elif not before.present and after.present:
+            newly_present.append(path)
+        elif before.present and after.present:
+            if before.value_fingerprint != after.value_fingerprint:
+                changed_fields.append(path)
+            else:
+                stable_fields.append(path)
+
+    return ExtractionDriftReport(
+        contract_fingerprint=current_report.contract_fingerprint,
+        baseline_payload_fingerprint=baseline_report.payload_fingerprint,
+        current_payload_fingerprint=current_report.payload_fingerprint,
+        payload_changed=(
+            baseline_report.payload_fingerprint
+            != current_report.payload_fingerprint
+        ),
+        current_contract_passed=current_report.passed,
+        changed_fields=changed_fields,
+        missing_now=missing_now,
+        newly_present=newly_present,
+        stable_fields=stable_fields,
     )
