@@ -42,6 +42,18 @@ class TestPriceParser:
     def test_parse_european_thousands_dot(self):
         assert _parse_price_string("1.299,99") == 1299.99
 
+    def test_parse_european_thousands_dot_without_cents(self):
+        assert _parse_price_string("1.299") == 1299.0
+
+    def test_parse_multiple_european_thousands_groups(self):
+        assert _parse_price_string("12.345.678,90") is None  # exceeds extractor sanity cap
+
+    def test_parse_us_thousands_without_cents(self):
+        assert _parse_price_string("1,299") == 1299.0
+
+    def test_parse_rejects_ambiguous_long_fraction(self):
+        assert _parse_price_string("19.9999") is None
+
     def test_parse_with_currency_symbol_ignored(self):
         # _parse_price_string strips non-numeric before parsing
         assert _parse_price_string("299.00") == 299.0
