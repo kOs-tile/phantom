@@ -109,26 +109,33 @@ def _parse_price_string(text: str) -> Optional[float]:
     if not cleaned:
         return None
 
-    # Detect European format: 1.299,99 or 19,99
-    if re.search(r"\d{1,3}\.\d{3},\d{2}$", cleaned):
-        # European with thousands dot: 1.299,99 → 1299.99
-        cleaned = cleaned.replace(".", "").replace(",", ".")
-    elif re.match(r"^\d{1,3}(,\d{3})+\.\d{2}$", cleaned):
-        # US with thousands comma: 1,299.99 → 1299.99
-        cleaned = cleaned.replace(",", "")
-    elif "," in cleaned and "." not in cleaned:
-        # Could be European decimal: 19,99 → 19.99
-        parts = cleaned.split(",")
-        if len(parts) == 2 and len(parts[1]) <= 2:
-            cleaned = cleaned.replace(",", ".")
+    comma_count = cleaned.count(",")
+    dot_count = cleaned.count(".")
+
+    if comma_count and dot_count:
+        # The right-most separator is normally the decimal separator;
+        # all earlier separators are grouping separators.
+        if cleaned.rfind(",") > cleaned.rfind("."):
+            cleaned = cleaned.replace(".", "").replace(",", ".")
         else:
-            # Thousands separator: 1,299 → 1299
             cleaned = cleaned.replace(",", "")
-    elif "." in cleaned and "," not in cleaned:
-        # Standard: 19.99
-        pass
-    else:
-        cleaned = cleaned.replace(",", "")
+    elif comma_count:
+        parts = cleaned.split(",")
+        if comma_count == 1 and len(parts[1]) in (1, 2):
+            cleaned = ".".join(parts)
+        elif all(len(group) == 3 for group in parts[1:]):
+            cleaned = "".join(parts)
+        else:
+            return None
+    elif dot_count:
+        parts = cleaned.split(".")
+        if dot_count == 1 and len(parts[1]) in (1, 2):
+            pass
+        elif all(len(group) == 3 for group in parts[1:]):
+            # Common European grouping without a decimal comma: 1.299 → 1299.
+            cleaned = "".join(parts)
+        else:
+            return None
 
     try:
         value = float(cleaned)
