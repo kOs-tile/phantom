@@ -387,3 +387,28 @@ class TestExtractionValidationEndpoint:
         body = response.json()
         assert body["passed"] is False
         assert body["missing_required"] == ["price"]
+
+
+
+def test_validate_extraction_drift_endpoint():
+    from fastapi.testclient import TestClient
+    from phantom.api.main import app
+
+    with TestClient(app, raise_server_exceptions=False) as client:
+        response = client.post(
+            "/validate/extraction-drift",
+            json={
+                "baseline": {"title": "Widget", "price": 10.0},
+                "current": {"title": "Widget 2"},
+                "contract": {
+                    "required_fields": ["title", "price"],
+                },
+            },
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["payload_changed"] is True
+    assert body["current_contract_passed"] is False
+    assert body["changed_fields"] == ["title"]
+    assert body["missing_now"] == ["price"]
