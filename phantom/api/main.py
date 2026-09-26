@@ -67,11 +67,11 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 # ── FastAPI app ───────────────────────────────────────────────────────────────
 
 app = FastAPI(
-    title="PHANTOM — Hermes Agent Stealth Browser Engine",
+    title="PHANTOM — Hermes Agent Browser Automation Research",
     description=(
-        "Production-grade stealth browser automation engine for Hermes agents. "
+        "Browser automation research engine for Hermes agents. "
         "Browse, scrape, and extract structured data from any website while "
-        "mimicking real human behavior to bypass anti-bot systems."
+        "mimicking real human behavior to explore automation-detection behavior."
     ),
     version="0.1.0",
     docs_url="/docs",
