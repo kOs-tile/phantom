@@ -19,6 +19,11 @@ from phantom.browser.navigator import PageNavigator
 from phantom.extractors.article import ArticleExtractor
 from phantom.extractors.price import PriceExtractor
 from phantom.extractors.structured import StructuredDataExtractor
+from phantom.reliability.contracts import (
+    ExtractionQualityReport,
+    ExtractionValidationRequest,
+    evaluate_extraction_contract,
+)
 from phantom.models import (
     ArticleData,
     ArticleRequest,
@@ -95,6 +100,24 @@ async def health_check(
         cache_connected=cache_health.get("redis_connected", False),
         timestamp=datetime.utcnow(),
     )
+
+
+# ── Reliability ───────────────────────────────────────────────────────────────
+
+@router.post(
+    "/validate/extraction",
+    response_model=ExtractionQualityReport,
+    tags=["Reliability"],
+)
+async def validate_extraction(
+    request: ExtractionValidationRequest,
+) -> ExtractionQualityReport:
+    """Validate any structured extraction payload against a deterministic contract.
+
+    This endpoint is browser/provider independent: callers may validate PHANTOM
+    results or payloads produced by another browser agent/provider.
+    """
+    return evaluate_extraction_contract(request.data, request.contract)
 
 
 # ── Browse ────────────────────────────────────────────────────────────────────
