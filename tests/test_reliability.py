@@ -138,3 +138,50 @@ def test_compare_extractions_detects_new_optional_field():
     assert drift.current_contract_passed is True
     assert drift.newly_present == ["seller"]
     assert drift.stable_fields == ["title"]
+
+
+
+def test_quality_report_fingerprint_is_deterministic():
+    contract = ExtractionContract(required_fields=["title", "price"])
+    first = evaluate_extraction_contract(
+        {"title": "Widget", "price": 10.0},
+        contract,
+    )
+    second = evaluate_extraction_contract(
+        {"price": 10.0, "title": "Widget"},
+        contract,
+    )
+
+    assert len(first.report_fingerprint) == 64
+    assert first.report_fingerprint == second.report_fingerprint
+
+
+def test_quality_report_fingerprint_changes_with_contract_breakage():
+    contract = ExtractionContract(required_fields=["title", "price"])
+    passing = evaluate_extraction_contract(
+        {"title": "Widget", "price": 10.0},
+        contract,
+    )
+    failing = evaluate_extraction_contract(
+        {"title": "Widget"},
+        contract,
+    )
+
+    assert passing.report_fingerprint != failing.report_fingerprint
+
+
+def test_drift_report_fingerprint_is_deterministic():
+    contract = ExtractionContract(required_fields=["title", "price"])
+    first = compare_extractions(
+        {"title": "Widget", "price": 10.0},
+        {"title": "Widget v2", "price": 10.0},
+        contract,
+    )
+    second = compare_extractions(
+        {"price": 10.0, "title": "Widget"},
+        {"price": 10.0, "title": "Widget v2"},
+        contract,
+    )
+
+    assert len(first.report_fingerprint) == 64
+    assert first.report_fingerprint == second.report_fingerprint
