@@ -41,7 +41,7 @@ Browser automation succeeding does not prove the extracted payload is usable. PH
 
 The response includes required-field coverage, missing/blank fields, field-level evidence, and canonical SHA-256 fingerprints for both the contract and payload. The validator has no Playwright dependency, so the same contract can verify results produced by PHANTOM, an MCP browser tool, Browserbase, Cloudflare Browser Rendering, or another provider.
 
-This is the active product thesis: **browser agents execute; PHANTOM verifies the extraction contract.**
+This is the active product thesis: **browser agents execute; PHANTOM verifies the extraction contract.**\n\n`POST /validate/extraction-drift` additionally compares a baseline/current payload under the same contract and reports changed fields, fields missing now, newly present fields, stable fields, and whether the current payload still passes.
 
 ## Architecture
 
@@ -320,3 +320,8 @@ phantom/
 ## License
 
 MIT © Hermes Agent Team
+
+
+## Validation gate
+
+PHANTOM's primary metric is **contract false-pass rate**. The mutation/replay and cross-provider benchmark plan is defined in [`docs/VALIDATION.md`](docs/VALIDATION.md).
