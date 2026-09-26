@@ -334,3 +334,56 @@ class TestModels:
         import pydantic
         with pytest.raises(pydantic.ValidationError):
             ViewportSize(width=100, height=100)  # width < 320 is fine, height < 240 fails
+
+
+
+class TestExtractionValidationEndpoint:
+
+    def test_validate_extraction_does_not_require_browser(self):
+        from fastapi.testclient import TestClient
+        from phantom.api.main import app
+
+        with TestClient(app, raise_server_exceptions=False) as client:
+            response = client.post(
+                "/validate/extraction",
+                json={
+                    "data": {
+                        "product": {
+                            "title": "Widget",
+                            "price": {"amount": 29.99},
+                        }
+                    },
+                    "contract": {
+                        "required_fields": [
+                            "product.title",
+                            "product.price.amount",
+                        ]
+                    },
+                },
+            )
+
+        assert response.status_code == 200
+        body = response.json()
+        assert body["passed"] is True
+        assert body["required_coverage"] == 1.0
+        assert len(body["payload_fingerprint"]) == 64
+
+    def test_validate_extraction_reports_missing_fields(self):
+        from fastapi.testclient import TestClient
+        from phantom.api.main import app
+
+        with TestClient(app, raise_server_exceptions=False) as client:
+            response = client.post(
+                "/validate/extraction",
+                json={
+                    "data": {"title": "Widget"},
+                    "contract": {
+                        "required_fields": ["title", "price"],
+                    },
+                },
+            )
+
+        assert response.status_code == 200
+        body = response.json()
+        assert body["passed"] is False
+        assert body["missing_required"] == ["price"]
