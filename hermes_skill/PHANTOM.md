@@ -3,8 +3,8 @@ name: phantom
 version: 1.0.0
 description: >
   Stealth browser automation — browse, scrape, and extract structured data
-  from any website undetected. Mimics real human behavior (mouse, scroll,
-  typing) to bypass anti-bot systems. Supports price monitoring, article
+  from websites through Playwright. Mimics real human behavior (mouse, scroll,
+  typing) to explore automation-detection behavior. Supports price monitoring, article
   extraction, screenshot capture, and recurring scrape jobs.
 author: Hermes Agent Team
 license: MIT
@@ -33,10 +33,9 @@ integrations:
   - DEALHARVEST              # Deal discovery + comparison pipelines
 ---
 
-# PHANTOM — Hermes Agent Stealth Browser Engine
+# PHANTOM — Hermes Agent Browser Automation Research
 
-PHANTOM gives Hermes agents a production-grade stealth browser to interact
-with any website as if they were a real human user. It handles fingerprint
+PHANTOM gives Hermes agents an experimental Playwright-based browser automation surface. It handles fingerprint
 randomization, behavioral simulation, and WebDriver evasion automatically.
 
 ## Authentication
