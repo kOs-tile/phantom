@@ -20,8 +20,11 @@ from phantom.extractors.article import ArticleExtractor
 from phantom.extractors.price import PriceExtractor
 from phantom.extractors.structured import StructuredDataExtractor
 from phantom.reliability.contracts import (
+    ExtractionDriftReport,
+    ExtractionDriftRequest,
     ExtractionQualityReport,
     ExtractionValidationRequest,
+    compare_extractions,
     evaluate_extraction_contract,
 )
 from phantom.models import (
@@ -118,6 +121,22 @@ async def validate_extraction(
     results or payloads produced by another browser agent/provider.
     """
     return evaluate_extraction_contract(request.data, request.contract)
+
+
+@router.post(
+    "/validate/extraction-drift",
+    response_model=ExtractionDriftReport,
+    tags=["Reliability"],
+)
+async def validate_extraction_drift(
+    request: ExtractionDriftRequest,
+) -> ExtractionDriftReport:
+    """Compare a baseline/current extraction under one deterministic contract."""
+    return compare_extractions(
+        request.baseline,
+        request.current,
+        request.contract,
+    )
 
 
 # ── Browse ────────────────────────────────────────────────────────────────────
