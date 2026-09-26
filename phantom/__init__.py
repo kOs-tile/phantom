@@ -1,9 +1,9 @@
 """
-PHANTOM — Hermes Agent Stealth Browser Engine
+PHANTOM — Hermes Agent Browser Automation Research
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-A production-grade stealth browser automation engine designed for Hermes agents.
+A browser automation research engine designed for Hermes agents.
 Enables browsing, scraping, and structured data extraction while mimicking
-real human behavior to bypass anti-bot detection systems.
+real human behavior to explore automation-detection behavior.
 
 Usage::
 
