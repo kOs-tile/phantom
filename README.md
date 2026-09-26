@@ -1,12 +1,15 @@
 # PHANTOM — Hermes Agent Stealth Browser Engine
 
+> **Status — Legacy browser-automation research.** PHANTOM contains useful Playwright, extraction, queueing, and behavior-simulation experiments. It does **not** claim reliable stealth or anti-bot bypass against modern production defenses.
+
+
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111%2B-009688.svg)](https://fastapi.tiangolo.com/)
 [![Playwright](https://img.shields.io/badge/Playwright-async-45ba4b.svg)](https://playwright.dev/python/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://img.shields.io/badge/tests-70%2B-brightgreen.svg)]()
 
-A production-grade stealth browser automation engine designed as a Hermes agent skill. PHANTOM enables Hermes agents to browse the web undetected — scraping prices, monitoring pages, filling forms, and extracting structured data — while mimicking real human behavior to bypass anti-bot systems.
+A browser-automation research prototype originally designed as a Hermes agent skill. PHANTOM enables Hermes agents to browse the web undetected — scraping prices, monitoring pages, filling forms, and extracting structured data — while mimicking real human behavior to bypass anti-bot systems.
 
 ---
 
@@ -84,7 +87,7 @@ A production-grade stealth browser automation engine designed as a Hermes agent 
 
 ```bash
 # 1. Clone and install
-git clone https://github.com/your-org/phantom.git
+git clone https://github.com/kOs-tile/phantom.git
 cd phantom
 pip install -r requirements.txt
 
