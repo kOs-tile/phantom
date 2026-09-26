@@ -1,4 +1,4 @@
-# PHANTOM — Hermes Agent Stealth Browser Engine
+# PHANTOM — Hermes Agent Browser Automation Research
 
 > **Status — Legacy browser-automation research.** PHANTOM contains useful Playwright, extraction, queueing, and behavior-simulation experiments. It does **not** claim reliable stealth or anti-bot bypass against modern production defenses.
 
