@@ -15,7 +15,33 @@ A browser-automation research prototype originally designed as a Hermes agent sk
 
 ## Current product boundary
 
-The active wedge is **browser extraction reliability**, not stealth. Current work prioritizes locale-aware price parsing, structured-data extraction, deterministic browser workflows, retries/queues, and evidence about extraction quality. Fingerprint and behavior-simulation modules are retained as experiments and are not treated as a security or anti-detection guarantee.
+The active wedge is **provider-agnostic browser extraction reliability**, not stealth. PHANTOM can now validate structured payloads from its own Playwright workflows or from external browser agents/providers against deterministic extraction contracts. Current work prioritizes extraction contracts, canonical evidence fingerprints, locale-aware parsing, structured-data extraction, retries/queues, and replayable quality evidence. Fingerprint and behavior-simulation modules are retained as experiments and are not treated as a security or anti-detection guarantee.
+
+## Extraction Contracts
+
+Browser automation succeeding does not prove the extracted payload is usable. PHANTOM separates those concerns.
+
+`POST /validate/extraction` accepts any JSON payload plus a deterministic contract:
+
+```json
+{
+  "data": {
+    "product": {
+      "title": "Widget",
+      "price": {"amount": 29.99}
+    }
+  },
+  "contract": {
+    "required_fields": ["product.title", "product.price.amount"],
+    "optional_fields": ["product.seller"],
+    "min_required_coverage": 1.0
+  }
+}
+```
+
+The response includes required-field coverage, missing/blank fields, field-level evidence, and canonical SHA-256 fingerprints for both the contract and payload. The validator has no Playwright dependency, so the same contract can verify results produced by PHANTOM, an MCP browser tool, Browserbase, Cloudflare Browser Rendering, or another provider.
+
+This is the active product thesis: **browser agents execute; PHANTOM verifies the extraction contract.**
 
 ## Architecture
 
@@ -58,7 +84,7 @@ The active wedge is **browser extraction reliability**, not stealth. Current wor
 
 ## Features
 
-### Stealth Layer
+### Experimental Browser Simulation Layer
 - **Fingerprint randomization** — Realistic Chrome 120–125 User-Agents, weighted viewport sizes (1366×768, 1440×900, 1920×1080, 2560×1440), timezone/locale pairing, full HTTP header sets
 - **Human behavior simulation** — Bezier-curve mouse paths, random micro-delays (50–300ms), ease-in-out scroll patterns, typo-and-correct form fill simulation
 - **WebDriver evasion** — Hides `navigator.webdriver`, fakes `chrome.runtime`, spoofs `navigator.plugins`, overrides `navigator.languages`, fixes iframe detection, spoofs hardware concurrency
