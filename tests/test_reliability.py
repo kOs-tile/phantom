@@ -1,5 +1,6 @@
 from phantom.reliability.contracts import (
     ExtractionContract,
+    compare_extractions,
     evaluate_extraction_contract,
 )
 
@@ -102,3 +103,38 @@ def test_optional_missing_field_does_not_fail_contract():
 
     assert report.passed is True
     assert report.evidence["seller"].present is False
+
+
+
+def test_compare_extractions_surfaces_contract_breakage():
+    contract = ExtractionContract(
+        required_fields=["title", "price"],
+        optional_fields=["seller"],
+    )
+    drift = compare_extractions(
+        {"title": "Widget", "price": 10.0, "seller": "Acme"},
+        {"title": "Widget v2", "seller": "Acme"},
+        contract,
+    )
+
+    assert drift.payload_changed is True
+    assert drift.current_contract_passed is False
+    assert drift.changed_fields == ["title"]
+    assert drift.missing_now == ["price"]
+    assert drift.stable_fields == ["seller"]
+
+
+def test_compare_extractions_detects_new_optional_field():
+    contract = ExtractionContract(
+        required_fields=["title"],
+        optional_fields=["seller"],
+    )
+    drift = compare_extractions(
+        {"title": "Widget"},
+        {"title": "Widget", "seller": "Acme"},
+        contract,
+    )
+
+    assert drift.current_contract_passed is True
+    assert drift.newly_present == ["seller"]
+    assert drift.stable_fields == ["title"]
