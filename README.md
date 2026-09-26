@@ -1,6 +1,6 @@
 # PHANTOM — Hermes Agent Browser Automation Research
 
-> **Status — Legacy browser-automation research.** PHANTOM contains useful Playwright, extraction, queueing, and behavior-simulation experiments. It does **not** claim reliable stealth or anti-bot bypass against modern production defenses.
+> **Status — Research-active browser extraction toolkit.** PHANTOM is being retained for deterministic browser automation, structured extraction, scheduling, and data collection. Older fingerprint/behavior-simulation code remains experimental and does **not** claim reliable anti-bot bypass.
 
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
@@ -12,6 +12,10 @@
 A browser-automation research prototype originally designed as a Hermes agent skill. PHANTOM automates browsing, scraping, page monitoring, form interaction, and structured extraction. Its fingerprint and behavior-simulation layers are experimental; effectiveness against modern anti-bot systems has not been validated.
 
 ---
+
+## Current product boundary
+
+The active wedge is **browser extraction reliability**, not stealth. Current work prioritizes locale-aware price parsing, structured-data extraction, deterministic browser workflows, retries/queues, and evidence about extraction quality. Fingerprint and behavior-simulation modules are retained as experiments and are not treated as a security or anti-detection guarantee.
 
 ## Architecture
 
