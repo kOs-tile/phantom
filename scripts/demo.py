@@ -147,7 +147,7 @@ def demo_fingerprints() -> None:
     console.rule("[bold cyan]1. Browser Fingerprint Randomization[/bold cyan]")
     console.print()
     console.print(
-        "[dim]PHANTOM generates a fresh, realistic browser fingerprint for each task.[/dim]\n"
+        "[dim]This simulated section exercises the experimental browser-profile layer; it is not anti-detection evidence.[/dim]\n"
     )
 
     with Progress(
@@ -180,7 +180,7 @@ def demo_fingerprints() -> None:
 
     console.print(table)
     console.print(
-        "\n[green]✓[/green] Evasion scripts injected: "
+        "\n[yellow]Research only:[/yellow] experimental browser-simulation hooks configured: "
         "[dim]hide_webdriver, fake_chrome_runtime, fake_plugins, permissions_override[/dim]\n"
     )
 
