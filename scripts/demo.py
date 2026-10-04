@@ -137,7 +137,7 @@ def demo_header() -> None:
     banner.append("██║     ██║  ██║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║ ╚═╝ ██║\n", style="bold cyan")
     banner.append("╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝\n", style="bold cyan")
 
-    subtitle = Text("Hermes Agent Stealth Browser Engine  •  v0.1.0", style="dim white")
+    subtitle = Text("Browser Automation & Extraction Reliability Research  •  v0.1.0", style="dim white")
     console.print(Panel(banner, subtitle=subtitle, border_style="cyan", padding=(0, 2)))
     console.print()
 
@@ -187,7 +187,7 @@ def demo_fingerprints() -> None:
 
 def demo_browse() -> None:
     """Demo: Page browsing."""
-    console.rule("[bold cyan]2. Stealth Page Navigation[/bold cyan]")
+    console.rule("[bold cyan]2. Page Navigation (Simulated Demo)[/bold cyan]")
     console.print()
 
     for result in DEMO_BROWSE_RESULTS:
