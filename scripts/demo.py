@@ -137,7 +137,7 @@ def demo_header() -> None:
     banner.append("██║     ██║  ██║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║ ╚═╝ ██║\n", style="bold cyan")
     banner.append("╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝\n", style="bold cyan")
 
-    subtitle = Text("Hermes Agent Stealth Browser Engine  •  v0.1.0", style="dim white")
+    subtitle = Text("Browser Automation & Extraction Reliability Research  •  v0.1.0", style="dim white")
     console.print(Panel(banner, subtitle=subtitle, border_style="cyan", padding=(0, 2)))
     console.print()
 
@@ -147,7 +147,7 @@ def demo_fingerprints() -> None:
     console.rule("[bold cyan]1. Browser Fingerprint Randomization[/bold cyan]")
     console.print()
     console.print(
-        "[dim]PHANTOM generates a fresh, realistic browser fingerprint for each task.[/dim]\n"
+        "[dim]This simulated section exercises the experimental browser-profile layer; it is not anti-detection evidence.[/dim]\n"
     )
 
     with Progress(
@@ -180,14 +180,14 @@ def demo_fingerprints() -> None:
 
     console.print(table)
     console.print(
-        "\n[green]✓[/green] Evasion scripts injected: "
+        "\n[yellow]Research only:[/yellow] experimental browser-simulation hooks configured: "
         "[dim]hide_webdriver, fake_chrome_runtime, fake_plugins, permissions_override[/dim]\n"
     )
 
 
 def demo_browse() -> None:
     """Demo: Page browsing."""
-    console.rule("[bold cyan]2. Stealth Page Navigation[/bold cyan]")
+    console.rule("[bold cyan]2. Page Navigation (Simulated Demo)[/bold cyan]")
     console.print()
 
     for result in DEMO_BROWSE_RESULTS:
@@ -357,13 +357,15 @@ def demo_summary() -> None:
     console.print()
 
     console.print(Panel(
-        "[bold white]PHANTOM is ready for production deployment.[/bold white]\n\n"
-        "  [cyan]•[/cyan] 3 stealth layers active (fingerprint + humanizer + evasion)\n"
+        "[bold white]PHANTOM is a research-active browser automation and extraction toolkit.[/bold white]\n\n"
+        "  [cyan]•[/cyan] Extraction reliability is the active product wedge\n"
+        "  [cyan]•[/cyan] Experimental fingerprint/humanizer/evasion modules carry no anti-bot guarantee\n"
         "  [cyan]•[/cyan] Async Playwright with per-task context isolation\n"
-        "  [cyan]•[/cyan] Priority queue with exponential backoff retry\n"
+        "  [cyan]•[/cyan] Priority queue with bounded retry behavior\n"
         "  [cyan]•[/cyan] Price, article, and structured data extractors\n"
-        "  [cyan]•[/cyan] Redis cache with in-memory fallback\n"
-        "  [cyan]•[/cyan] 8-tool Hermes skill integration ready\n\n"
+        "  [cyan]•[/cyan] Provider-agnostic extraction contracts and evidence fingerprints\n"
+        "  [cyan]•[/cyan] Hermes integration available for experimentation\n\n"
+        "[yellow]This simulated CLI is not production-readiness or anti-detection evidence.[/yellow]\n\n"
         "[dim]Start the API:[/dim]\n"
         "  [green]pip install -r requirements.txt && playwright install chromium[/green]\n"
         "  [green]uvicorn phantom.api.main:app --port 8001[/green]",
