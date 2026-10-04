@@ -10,19 +10,35 @@ still pass their declared extraction contract.
 
 Target for deterministic fixtures: **0**.
 
-## Benchmark corpus v0.1
+## Executable mutation corpus v0.1
 
-- static HTML snapshots from multiple site shapes
-- selector breakages
+The current versioned corpus contains 20 deterministic payload cases:
+
+- canonical passing baseline
 - missing required fields
-- blank-but-present fields
-- nested/list payloads
-- locale-specific price formats
-- JSON-LD/OpenGraph fallbacks
-- layout mutations
-- provider-normalization differences
-- replay pairs with known drift
-- adversarial extra fields/noise
+- blank-but-present required fields
+- missing nested objects
+- null required values
+- empty arrays
+- broken nested/list paths
+- scalar replacement of an expected structured object
+- empty payload
+- optional-field removal
+- allowed value changes
+- adversarial extra/noise fields
+- key-order-only canonicalization case
+
+Recorded CI checkpoint:
+
+- broken/incomplete cases: **13**
+- false-passes: **0**
+- valid cases: **7**
+- false-fails: **0**
+- payload-drift expectation matches: **20/20**
+- corpus version: **phantom.extraction-corpus.v1**
+
+This benchmark exercises provider-agnostic extraction contracts directly. Static
+HTML mutation and cross-provider browser/runtime validation remain future gates.
 
 ## Metrics
 
@@ -37,6 +53,8 @@ Target for deterministic fixtures: **0**.
 
 ## Exit gate
 
-PHANTOM can claim extraction reliability only after the same contracts are run
-against a versioned mutation corpus and at least two browser providers/runtimes.
-Passing Playwright-only unit tests is not sufficient.
+The versioned deterministic mutation-corpus requirement is now satisfied for the
+contract layer. PHANTOM should not claim cross-provider extraction reliability
+until the same contracts are exercised against at least two browser
+providers/runtimes. Passing the payload corpus or Playwright-only tests is not
+sufficient for that broader claim.
