@@ -357,13 +357,15 @@ def demo_summary() -> None:
     console.print()
 
     console.print(Panel(
-        "[bold white]PHANTOM is ready for production deployment.[/bold white]\n\n"
-        "  [cyan]•[/cyan] 3 stealth layers active (fingerprint + humanizer + evasion)\n"
+        "[bold white]PHANTOM is a research-active browser automation and extraction toolkit.[/bold white]\n\n"
+        "  [cyan]•[/cyan] Extraction reliability is the active product wedge\n"
+        "  [cyan]•[/cyan] Experimental fingerprint/humanizer/evasion modules carry no anti-bot guarantee\n"
         "  [cyan]•[/cyan] Async Playwright with per-task context isolation\n"
-        "  [cyan]•[/cyan] Priority queue with exponential backoff retry\n"
+        "  [cyan]•[/cyan] Priority queue with bounded retry behavior\n"
         "  [cyan]•[/cyan] Price, article, and structured data extractors\n"
-        "  [cyan]•[/cyan] Redis cache with in-memory fallback\n"
-        "  [cyan]•[/cyan] 8-tool Hermes skill integration ready\n\n"
+        "  [cyan]•[/cyan] Provider-agnostic extraction contracts and evidence fingerprints\n"
+        "  [cyan]•[/cyan] Hermes integration available for experimentation\n\n"
+        "[yellow]This simulated CLI is not production-readiness or anti-detection evidence.[/yellow]\n\n"
         "[dim]Start the API:[/dim]\n"
         "  [green]pip install -r requirements.txt && playwright install chromium[/green]\n"
         "  [green]uvicorn phantom.api.main:app --port 8001[/green]",
