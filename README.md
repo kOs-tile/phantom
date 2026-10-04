@@ -324,4 +324,4 @@ MIT © Hermes Agent Team
 
 ## Validation gate
 
-PHANTOM's primary metric is **contract false-pass rate**. The mutation/replay and cross-provider benchmark plan is defined in [`docs/VALIDATION.md`](docs/VALIDATION.md).
+PHANTOM's primary metric is **contract false-pass rate**. The executable v0.1 mutation corpus is defined in [`docs/VALIDATION.md`](docs/VALIDATION.md). Current CI checkpoint: **20/20 expected outcomes**, including **0 false-passes across 13 broken/incomplete payloads**, **0 false-fails across 7 valid payloads**, and **20/20 payload-drift expectation matches**. Cross-provider browser validation remains a separate unfinished gate.
